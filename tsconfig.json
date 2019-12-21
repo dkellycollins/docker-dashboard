@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "jsx": "react",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "target": "ES2019"
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

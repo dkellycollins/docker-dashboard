@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "main": "./dist/main/index.js",
+  "scripts": {
+    "build": "npm run build:clean && npm run build:main && npm run build:renderer",
+    "build:clean": "rimraf ./dist",
+    "build:main": "webpack --config webpack.main.config.js",
+    "build:renderer": "webpack --config webpack.renderer.config.js",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "dockerode": "^3.0.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "@types/dockerode": "^2.5.21",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "css-loader": "^3.4.0",
+    "electron": "^7.1.7",
+    "file-loader": "^5.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "rimraf": "^3.0.0",
+    "style-loader": "^1.1.1",
+    "ts-loader": "^6.2.1",
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-merge": "^4.2.2"
+  }
+}

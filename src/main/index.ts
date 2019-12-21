@@ -1,5 +1,4 @@
 import { app, BrowserWindow } from 'electron';
-import { join } from 'path';
 import { format } from 'url';
 
 let window: BrowserWindow;
@@ -16,7 +15,6 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   });
-  console.log(url);
   window.loadURL(url);
 }
 

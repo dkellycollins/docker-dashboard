@@ -17,7 +17,7 @@ export const NavigationPanel: FC = () => {
       isExpanded: getTreeNode('_containers').isExpanded, 
       childNodes: containers.map(container => ({
         id: container.id,
-        label: container.names.join(', '),
+        label: container.names.join(','),
         secondaryLabel: container.image
       }))
     },
@@ -33,10 +33,10 @@ export const NavigationPanel: FC = () => {
   ];
   
   return (
-    <Tree 
+    <Tree
       contents={contents}
-      onNodeExpand={(node) => updateTreeNode(node.id.toString(), { isExpanded: true })}
-      onNodeCollapse={(node) => updateTreeNode(node.id.toString(), { isExpanded: false })}
+      onNodeExpand={(node) => updateTreeNode(node.id.toString(), true)}
+      onNodeCollapse={(node) => updateTreeNode(node.id.toString(), false)}
     />
   );
 }

@@ -4,11 +4,19 @@ export interface TreeNodeState {
   isExpanded: boolean;
 }
 
-export function useTreeNodeState(): [(id: string) => TreeNodeState, (id: string, state: TreeNodeState) => void] {
+export function useTreeNodeState(): [(id: string) => TreeNodeState, (id: string, isExpanded: boolean) => void] {
   const [state, setState] = useState({});
 
   const getTreeNode = (id: string) => state[id] || { isExpanded: false };
-  const updateTreeNode = (id: string, newState: TreeNodeState) => setState({ ...state, [id]: newState });
+  const setIsExpanded = (id: string, isExpanded: boolean) => {
+    setState({
+      ...state,
+      [id]: {
+        ...(state[id] || { isExpanded: false }),
+        isExpanded: isExpanded
+      }
+    });
+  }
 
-  return [getTreeNode, updateTreeNode];
+  return [getTreeNode, setIsExpanded];
 }

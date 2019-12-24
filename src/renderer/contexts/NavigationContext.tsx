@@ -1,35 +1,47 @@
 import React, { createContext, FC, useContext } from 'react';
 import { BehaviorSubject } from 'rxjs';
-
-export interface NavigationContext {
-  stack: BehaviorSubject<Array<NavigationItem<unknown>>>;
-}
+import { useObservable } from '../hooks/useObservable';
 
 export interface NavigationItem<T> {
   label: string;
   viewData: T;
 }
 
-export interface NavigationApi {
-  goTo(items: Array<NavigationItem<unknown>>): void;
-  push<T>(item: NavigationItem<T>): void;
-  back(): void;
-}
+export class NavigationContext {
 
-const _context = createContext<NavigationContext>({ stack: new BehaviorSubject([]) });
+  public stack: BehaviorSubject<Array<NavigationItem<unknown>>> = new BehaviorSubject([]);
 
-export const NavigationProvider: FC = ({ children }) => <_context.Provider value={{ stack: new BehaviorSubject([]) }}>{children}</_context.Provider>;
+  private history: Array<Array<NavigationItem<unknown>>> = [];
 
-export function useNavigationContext(): [NavigationContext, NavigationApi] {
-  const context = useContext(_context);
-
-  function goTo(items: Array<NavigationItem<unknown>>) { console.log(items); context.stack.next([...items]); };
-  function push<T>(item: NavigationItem<T>) { context.stack.next([...context.stack.getValue(), item]); };
-  function back() { 
-    const stack = context.stack.getValue();
-    stack.pop();
-    context.stack.next(stack); 
+  public goTo = (items: Array<NavigationItem<unknown>>): void => {
+    this.history.push(this.stack.getValue());
+    this.stack.next([...items]);
   }
 
-  return [context, { goTo, push, back }];
+  public push = (items: Array<NavigationItem<unknown>>): void => {
+    this.history.push(this.stack.getValue());
+    this.stack.next([...this.stack.getValue(), ...items]);
+  }
+
+  public canGoBack = (): boolean => {
+    return this.history.length > 0;
+  }
+
+  public back = (): void => {
+    if (this.history.length ===  0) return;
+
+    const prevState = this.history.pop();
+    this.stack.next(prevState);
+  }
+}
+
+const _context = createContext<NavigationContext>(new NavigationContext());
+
+export const NavigationProvider: FC = ({ children }) => <_context.Provider value={new NavigationContext()}>{children}</_context.Provider>;
+
+export function useNavigationContext(): [Array<NavigationItem<unknown>>, NavigationContext] {
+  const context = useContext(_context);
+  const stack = useObservable(context.stack, []);
+
+  return [stack, context];
 }

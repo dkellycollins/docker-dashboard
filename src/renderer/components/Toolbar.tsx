@@ -1,11 +1,9 @@
 import React, { FC } from "react";
 import { Navbar, NavbarHeading, NavbarGroup, NavbarDivider, Breadcrumbs, IBreadcrumbProps, Breadcrumb } from "@blueprintjs/core";
 import { useNavigationContext } from "../contexts/NavigationContext";
-import { useObservable } from "../hooks/useObservable";
 
 export const Toolbar: FC = () => {
-  const [navigationContext] = useNavigationContext();
-  const stack = useObservable(navigationContext.stack, []);
+  const [stack] = useNavigationContext();
 
   const breadcrumbs: Array<IBreadcrumbProps> = stack
     .map(item => ({

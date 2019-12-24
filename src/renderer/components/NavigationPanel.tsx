@@ -15,20 +15,27 @@ export const NavigationPanel: FC = () => {
       id: '_containers', 
       label: 'Containers', 
       isExpanded: getTreeNode('_containers').isExpanded, 
-      childNodes: containers.map(container => ({
-        id: container.id,
-        label: container.names.join(','),
-        secondaryLabel: container.image
-      }))
+      childNodes: containers
+        .flatMap(container => {
+          return container.names.map(name => ({
+            id: container.id,
+            label: name
+          }));
+        })
+        .sort((a, b) => a.label.localeCompare(b.label))
     },
     {
       id: '_images',
       label: 'Images',
       isExpanded: getTreeNode('_images').isExpanded,
-      childNodes: images.map(image => ({
-        id: image.id,
-        label: image.tags.join(',')
-      }))
+      childNodes: images
+        .flatMap(image => {
+          return image.tags.map(tag => ({
+            id: image.id,
+            label: tag
+          }));
+        })
+        .sort((a, b) => a.label.localeCompare(b.label))
     }
   ];
   

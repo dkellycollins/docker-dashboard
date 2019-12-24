@@ -5,7 +5,10 @@ export function useObservable<T>(observable: Observable<T>, initialState: T): T 
   const [state, setState] = useState(initialState);
 
   useEffect(() => {
-    const sub = observable.subscribe((data) => setState(data));
+    const sub = observable.subscribe((data) => {
+      console.log(data); 
+      setState(data)
+    });
     return sub.unsubscribe;
   }, [observable]);
 

@@ -4,7 +4,7 @@ import { useObservable } from '../hooks/useObservable';
 
 export interface NavigationItem<T> {
   label: string;
-  viewData: T;
+  viewData?: T;
 }
 
 export class NavigationContext {

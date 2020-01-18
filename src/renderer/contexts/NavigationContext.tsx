@@ -1,24 +1,20 @@
 import React, { createContext, FC, useContext } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { useObservable } from '../hooks/useObservable';
-
-export interface NavigationItem<T> {
-  label: string;
-  viewData?: T;
-}
+import { NavigationItem } from '../models/NavigationItem';
 
 export class NavigationContext {
 
-  public stack: BehaviorSubject<Array<NavigationItem<unknown>>> = new BehaviorSubject([]);
+  public stack: BehaviorSubject<Array<NavigationItem>> = new BehaviorSubject([]);
 
-  private history: Array<Array<NavigationItem<unknown>>> = [];
+  private history: Array<Array<NavigationItem>> = [];
 
-  public goTo = (items: Array<NavigationItem<unknown>>): void => {
+  public goTo = (items: Array<NavigationItem>): void => {
     this.history.push(this.stack.getValue());
     this.stack.next([...items]);
   }
 
-  public push = (items: Array<NavigationItem<unknown>>): void => {
+  public push = (items: Array<NavigationItem>): void => {
     this.history.push(this.stack.getValue());
     this.stack.next([...this.stack.getValue(), ...items]);
   }
@@ -39,7 +35,7 @@ const _context = createContext<NavigationContext>(new NavigationContext());
 
 export const NavigationProvider: FC = ({ children }) => <_context.Provider value={new NavigationContext()}>{children}</_context.Provider>;
 
-export function useNavigationContext(): [Array<NavigationItem<unknown>>, NavigationContext] {
+export function useNavigationContext(): [Array<NavigationItem>, NavigationContext] {
   const context = useContext(_context);
   const stack = useObservable(context.stack, []);
 

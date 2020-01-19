@@ -1,15 +1,16 @@
 import React, { FC } from "react";
-import { useNavigationContext, NavigationItem } from "../contexts/NavigationContext";
+import { useNavigationContext } from "../contexts/NavigationContext";
 import { useDockerNetworks } from "../hooks/useDockerNetworks";
 import { useTreeNodeState } from "../hooks/useTreeNodeState";
 import { ITreeNode, Tree } from "@blueprintjs/core";
+import { NavigationItem } from '../models/NavigationItem';
 
 export const NetworksNavigation: FC = () => {
   const [_, { goTo }] = useNavigationContext();
   const networks = useDockerNetworks();
   const [getTreeNode, updateTreeNode] = useTreeNodeState();
 
-  const contents: Array<ITreeNode<Array<NavigationItem<unknown>>>> = [
+  const contents: Array<ITreeNode<Array<NavigationItem>>> = [
     { 
       id: '_networks', 
       label: 'Networks', 

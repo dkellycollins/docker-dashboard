@@ -7,10 +7,10 @@ import { NavigationProvider } from '../contexts/NavigationContext';
 
 export const App: FC = () => {
   return (
-    <div>
-      <NavigationProvider>
-        <Toolbar />
-        <SplitPane primary="first" defaultSize="25%" minSize="50">
+    <NavigationProvider>
+      <Toolbar />
+      <div style={{ marginTop: '-50px', paddingTop: '50px', height: '100%' }}>
+        <SplitPane>
           <div>
             <NavigationPanel />
           </div>
@@ -18,7 +18,7 @@ export const App: FC = () => {
             <DetailsPanel />
           </div>
         </SplitPane>
-      </NavigationProvider>
-    </div>
+      </div>
+    </NavigationProvider>
   );
 }

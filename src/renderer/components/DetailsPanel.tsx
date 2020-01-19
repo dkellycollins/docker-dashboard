@@ -7,8 +7,6 @@ export const DetailsPanel: FC = () => {
   const [stack] = useNavigationContext();
   if (!stack) return null;
 
-  console.log(last(stack));
-
   const currentView = last(stack);
   if (!currentView || !currentView.viewData) return null;
 

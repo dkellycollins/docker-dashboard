@@ -10,13 +10,9 @@ export const App: FC = () => {
     <NavigationProvider>
       <Toolbar />
       <div style={{ marginTop: '-50px', paddingTop: '50px', height: '100%' }}>
-        <SplitPane>
-          <div>
+        <SplitPane paneStyle={{ overflow: 'auto' }}>
             <NavigationPanel />
-          </div>
-          <div>
             <DetailsPanel />
-          </div>
         </SplitPane>
       </div>
     </NavigationProvider>

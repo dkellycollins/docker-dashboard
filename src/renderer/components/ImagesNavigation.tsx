@@ -1,15 +1,16 @@
 import React, { FC } from "react";
-import { useNavigationContext, NavigationItem } from "../contexts/NavigationContext";
+import { useNavigationContext } from "../contexts/NavigationContext";
 import { useDockerImages } from "../hooks/useDockerImages";
 import { useTreeNodeState } from "../hooks/useTreeNodeState";
 import { ITreeNode, Tree } from "@blueprintjs/core";
+import { NavigationItem } from '../models/NavigationItem';
 
 export const ImagesNavigation: FC = () => {
   const [_, { goTo }] = useNavigationContext();
   const images = useDockerImages();
   const [getTreeNode, updateTreeNode] = useTreeNodeState();
 
-  const contents: Array<ITreeNode<Array<NavigationItem<unknown>>>> = [
+  const contents: Array<ITreeNode<Array<NavigationItem>>> = [
     {
       id: '_images',
       label: 'Images',
@@ -17,12 +18,13 @@ export const ImagesNavigation: FC = () => {
       isExpanded: getTreeNode('_images').isExpanded,
       childNodes: images
         .flatMap(image => {
+          if (!image.tags) return [];
           return image.tags.map((tag, index) => ({
             id: `${image.id}_${index}`,
             label: tag,
             nodeData: [ 
               { label: 'Images' }, 
-              { label: tag }
+              { label: tag, viewData: { viewType: 'image-details' as const, imageId: image.id } }
             ]
           }));
         })
